@@ -2,6 +2,30 @@
 
 [ext_resource type="TileSet" uid="uid://cu6r1iodt7nur" path="res://Tilesets/game_tile_set.tres" id="1_1ilvq"]
 [ext_resource type="PackedScene" uid="uid://ddm327oi3e4vk" path="res://scenes/characters/player/player.tscn" id="2_5nhwj"]
+[ext_resource type="PackedScene" uid="uid://c62mecpch3kxf" path="res://scenes/objects/trees/large_tree.tscn" id="3_km18k"]
+
+[sub_resource type="Shader" id="Shader_km18k"]
+resource_local_to_scene = true
+code = "shader_type canvas_item;
+
+uniform float shake_intensity = 0.0;
+uniform float shake_speed = 20.0;
+
+void vertex() {
+	vec2 shake = vec2(0.0);
+	if (VERTEX.y < 0.0) {
+		shake.x = sin(TIME * shake_speed + VERTEX.y) * shake_intensity;
+	}
+	
+	VERTEX.xy += shake;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wi5lm"]
+resource_local_to_scene = true
+shader = SubResource("Shader_km18k")
+shader_parameter/shake_intensity = 0.0
+shader_parameter/shake_speed = 20.0
 
 [node name="TestSceneTilemap" type="Node2D" unique_id=1450244837]
 
@@ -16,12 +40,15 @@ tile_map_data = PackedByteArray("AAAOAA0AAQABAAEAAAAOAAwAAQABAAEAAAAOAAsAAQABAAE
 tile_set = ExtResource("1_1ilvq")
 
 [node name="Trees" type="TileMapLayer" parent="GameTileMap" unique_id=165976261]
-tile_map_data = PackedByteArray("AAAJAAgABAAAAAAAAgALAAgABAAAAAAAAgANAAgABAAAAAAAAgAJAAoABAAAAAAAAgALAAoABAAAAAAAAgANAAoABAAAAAAAAgARAAwABAAAAAAAAgAWAAkABAAAAAAAAgA=")
+tile_map_data = PackedByteArray("AAAJAAgABAAAAAAAAgALAAgABAAAAAAAAgANAAgABAAAAAAAAgAJAAoABAAAAAAAAgALAAoABAAAAAAAAgANAAoABAAAAAAAAgARAAwABAAAAAAAAgAWAAkABAAAAAAAAgAVAAsABAAAAAAAAwA=")
 tile_set = ExtResource("1_1ilvq")
 
 [node name="Player" parent="." unique_id=1115939198 instance=ExtResource("2_5nhwj")]
 position = Vector2(213, 206)
-current_tool = 1
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=959748978]
-zoom = Vector2(4, 4)
+zoom = Vector2(3, 3)
+
+[node name="LargeTree" parent="." unique_id=758800010 instance=ExtResource("3_km18k")]
+material = SubResource("ShaderMaterial_wi5lm")
+position = Vector2(281, 140)

@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://c62mecpch3kxf"]
+
+[ext_resource type="Shader" uid="uid://cjui1ym0duct6" path="res://scenes/objects/trees/tree_shake.gdshader" id="1_f4wgc"]
+[ext_resource type="Texture2D" uid="uid://c41bgul0qspdd" path="res://assets/game/Objects/basic_grass_biom_things.png" id="1_ivetc"]
+[ext_resource type="Script" uid="uid://deu0bktgp2g2f" path="res://scenes/objects/trees/large_tree.gd" id="2_f4wgc"]
+[ext_resource type="PackedScene" uid="uid://do0m6ycehocra" path="res://scenes/components/hurt_component.tscn" id="2_wjqkr"]
+[ext_resource type="PackedScene" uid="uid://ci2qcxawf16md" path="res://scenes/components/damage_component.tscn" id="3_f4wgc"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6vpey"]
+resource_local_to_scene = true
+shader = ExtResource("1_f4wgc")
+shader_parameter/shake_intensity = 0.0
+shader_parameter/shake_speed = 20.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6vpey"]
+atlas = ExtResource("1_ivetc")
+region = Rect2(16, 0, 32, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0ia52"]
+size = Vector2(10, 14)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_you1t"]
+
+[node name="LargeTree" type="Sprite2D" unique_id=758800010]
+material = SubResource("ShaderMaterial_6vpey")
+position = Vector2(0, -14)
+texture = SubResource("AtlasTexture_6vpey")
+script = ExtResource("2_f4wgc")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=368509121]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=238173809]
+position = Vector2(0, 7)
+shape = SubResource("RectangleShape2D_0ia52")
+
+[node name="HurtComponent" parent="." unique_id=174356605 instance=ExtResource("2_wjqkr")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtComponent" unique_id=861648486]
+position = Vector2(0, 5)
+shape = SubResource("CircleShape2D_you1t")
+debug_color = Color(0.35751325, 0.6183607, 9.62615e-07, 0.41960785)
+
+[node name="DamageComponent" parent="." unique_id=1326965814 instance=ExtResource("3_f4wgc")]
+max_damage = 5
